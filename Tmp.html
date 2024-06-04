@@ -1,0 +1,68 @@
+Here is the HTML and inline CSS code for a temperature conversion tool with options to convert between Celsius, Fahrenheit, and Kelvin:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 2em; display: flex; flex-direction: column; align-items: center;">
+
+    <div style="margin-bottom: 1em;">
+        <label for="temperature" style="margin-right: 0.5em;">Temperature:</label>
+        <input type="text" id="temperature" style="padding: 0.5em;">
+    </div>
+
+    <div style="margin-bottom: 1em;">
+        <label for="unit" style="margin-right: 0.5em;">Convert from:</label>
+        <select id="unit" style="padding: 0.5em;">
+            <option value="Celsius">Celsius</option>
+            <option value="Fahrenheit">Fahrenheit</option>
+            <option value="Kelvin">Kelvin</option>
+        </select>
+    </div>
+
+    <button onclick="convertTemperature()" style="padding: 0.5em; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Convert</button>
+
+    <div id="result" style="margin-top: 2em; font-size: 1.2em;"></div>
+
+    <script>
+        function convertTemperature() {
+            const tempInput = document.getElementById('temperature').value;
+            const unit = document.getElementById('unit').value;
+            const resultDiv = document.getElementById('result');
+            const temp = parseFloat(tempInput);
+
+            if (isNaN(temp)) {
+                resultDiv.textContent = 'Please enter a valid number';
+                return;
+            }
+
+            let celsius, fahrenheit, kelvin;
+
+            if (unit === 'Celsius') {
+                celsius = temp;
+                fahrenheit = (temp * 9/5) + 32;
+                kelvin = temp + 273.15;
+            } else if (unit === 'Fahrenheit') {
+                celsius = (temp - 32) * 5/9;
+                fahrenheit = temp;
+                kelvin = (temp + 459.67) * 5/9;
+            } else if (unit === 'Kelvin') {
+                celsius = temp - 273.15;
+                fahrenheit = (temp * 9/5) - 459.67;
+                kelvin = temp;
+            }
+
+            resultDiv.innerHTML = `
+                ${temp} ${unit} is equivalent to:<br>
+                ${celsius.toFixed(2)} Celsius<br>
+                ${fahrenheit.toFixed(2)} Fahrenheit<br>
+                ${kelvin.toFixed(2)} Kelvin
+            `;
+        }
+    </script>
+
+</body>
+</html>

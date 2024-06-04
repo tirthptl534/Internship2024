@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Authentication</title>
+</head>
+<body>
+
+    <div id="loginPage">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+    </div>
+
+    <div id="registerPage" style="display: none;">
+        <h2>Register</h2>
+        <input type="text" id="newUsername" placeholder="Username">
+        <input type="password" id="newPassword" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+    </div>
+
+    <div id="securePage" style="display: none;">
+        <h2>Secure Page</h2>
+        <p>Welcome, <span id="loggedInUser"></span>! You have successfully logged in.</p>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        let users = [];
+
+        function register() {
+            const newUsername = document.getElementById('newUsername').value;
+            const newPassword = document.getElementById('newPassword').value;
+            if (newUsername.trim() === '' || newPassword.trim() === '') {
+                alert('Please enter both username and password');
+                return;
+            }
+            const existingUser = users.find(user => user.username === newUsername);
+            if (existingUser) {
+                alert('Username already exists. Please choose a different username.');
+                return;
+            }
+            users.push({ username: newUsername, password: newPassword });
+            showLogin();
+            alert('Registration successful. Please login.');
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const user = users.find(user => user.username === username && user.password === password);
+            if (user) {
+                document.getElementById('loggedInUser').textContent = username;
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('securePage').style.display = 'block';
+            } else {
+                alert('Invalid username or password. Please try again.');
+            }
+        }
+
+        function logout() {
+            document.getElementById('loggedInUser').textContent = '';
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('securePage').style.display = 'none';
+        }
+
+        function showRegister() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
